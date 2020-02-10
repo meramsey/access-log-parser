@@ -186,43 +186,43 @@ def main():
 
     # Show the top five pages and the total.
 
-    print 'Show top 10 pages %s' % theDay.strftime('%b %d, %Y')
+    print('Show top 10 pages %s' % theDay.strftime('%b %d, %Y'))
     pageviews = Counter(x['request'] for x in pages if goodagent(x))
     pagestop10 = pageviews.most_common(10)
     for p in pagestop10:
-        print '  %5d  %s' % p[::-1]
-    print '  %5d  total' % len(pages)
+        print('  %5d  %s' % p[::-1])
+    print('  %5d  total' % len(pages))
 
     # Show the top five referrers.
 
-    print '''
-    Show top 10 referrers %s''' % theDay.strftime('%b %d, %Y')
+    print('''
+    Show top 10 referrers %s''' % theDay.strftime('%b %d, %Y'))
     referrers = Counter(x['referrer'] for x in pages if goodref(x))
     referrerstop10 = referrers.most_common(10)
     for r in referrerstop10:
-        print '  %5d  %s' % r[::-1]
-    print '  %5d  total' % sum(referrers.values())
+        print('  %5d  %s' % r[::-1])
+    print('  %5d  total' % sum(referrers.values()))
 
     # Show the top 10 IPs.
-    print '''
-    Show Top 10 IPs %s''' % theDay.strftime('%b %d, %Y')
+    print('''
+    Show Top 10 IPs %s''' % theDay.strftime('%b %d, %Y'))
     iphits = Counter(x['host'] for x in pages if goodagent(x))
     iptop10 = iphits.most_common(10)
     for p in iptop10:
-        print '  %5d  %s' % p[::-1]
-    print '  %5d  total hits' % sum(iphits.values())
+        print('  %5d  %s' % p[::-1])
+    print('  %5d  total hits' % sum(iphits.values()))
 
     # CMS Checks
 
     # Wordpress Checks
     # Wordpress Login Bruteforcing checks for wp-login.php
-    print '''
-    Wordpress Bruteforce Logins for wp-login.php %s''' % theDay.strftime('%b %d, %Y')
+    print('''
+    Wordpress Bruteforce Logins for wp-login.php %s''' % theDay.strftime('%b %d, %Y'))
     wordpressloginhits = Counter(x['request'] for x in pages if wordpressbrute(x))
     # wordpresslogintop10 = wordpressloginhits.most_common(10)
     # for p in wordpresslogintop10:
     #    print '  %5d  %s' % p[::-1]
-    print '  %5d  total' % sum(wordpressloginhits.values())
+    print('  %5d  total' % sum(wordpressloginhits.values()))
 
 
 if __name__ == '__main__':
