@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+import os
+import re
+from datetime import date, timedelta
+
+# Define the day of interest in the Apache common log format.
+try:
+    # daysAgo = int(sys.argv[1])
+    daysAgo = 1
+except:
+    daysAgo = 1
+theDay = date.today() - timedelta(daysAgo)
+apacheDay = theDay.strftime('[%d/%b/%Y:')
+
+path = "/home/username/Desktop/domlogs"
+logs_path = os.listdir(path)
+stats_output = open("/home/username/wp.txt", "w")
+
+for log in logs_path:
+    file = os.path.join(path, log)
+    text = open(file, "r")
+    wp_login_hit_count = 0
+    wp_cron_hit_count = 0
+    wp_xmlrpc_hit_count = 0
+    wp_admin_ajax_hit_count = 0
+    for line in text:
+        if re.match("(.*)(wp-login.php)(.*)", line):
+            wp_login_hit_count = wp_login_hit_count + 1
+        if re.match("(.*)(wp-cron.php)(.*)", line):
+            wp_cron_hit_count = wp_cron_hit_count + 1
+        if re.match("(.*)(xmlrpc.php)(.*)", line):
+            wp_xmlrpc_hit_count = wp_xmlrpc_hit_count + 1
+        if re.match("(.*)(admin-ajax.php)(.*)", line):
+            wp_admin_ajax_hit_count = wp_admin_ajax_hit_count + 1
+            print(log + "|" + line
+                  print((log + " :Wordpress Logins => " + str(wp_login_hit_count)))
+            print((log + " :Wordpress wp-cron => " + str(wp_cron_hit_count)))
+            print((log + " :Wordpress xmlrpc => " + str(wp_xmlrpc_hit_count)))
+            print((log + " :Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count)))
+            print("===============================================================")
+            text.close()
