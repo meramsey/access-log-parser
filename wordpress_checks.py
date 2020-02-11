@@ -16,6 +16,12 @@ path = "/home/username/Desktop/domlogs"
 logs_path = os.listdir(path)
 stats_output = open(os.getcwd() + '/stats.txt', "w")
 
+# Initialize dictionaries for hit count tallys
+wp_login_dict = {}
+wp_cron_dict = {}
+wp_xmlrpc_dict = {}
+wp_admin_ajax_dict = {}
+
 for log in logs_path:
     file = os.path.join(path, log)
     text = open(file, "r")
@@ -33,7 +39,14 @@ for log in logs_path:
         if re.match("(.*)(admin-ajax.php)(.*)", line):
             wp_admin_ajax_hit_count = wp_admin_ajax_hit_count + 1
             # print >> stats_output, log + "|" + line,
-            print(log + "|" + line, end="", file=stats_output)
+            # print(log + "|" + line, end="", file=stats_output)
+
+    log = log.replace('.access_log', '', 1)
+
+    wp_login_dict[log] = str(wp_login_hit_count)
+    wp_cron_dict[log] = str(wp_cron_hit_count)
+    wp_xmlrpc_dict[log] = str(wp_xmlrpc_hit_count)
+    wp_admin_ajax_dict[log] = str(wp_admin_ajax_hit_count)
 
     print(log)
     print("Wordpress Logins => " + str(wp_login_hit_count))
@@ -42,3 +55,8 @@ for log in logs_path:
     print("Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count))
     print("===============================================================")
     text.close()
+
+print(wp_login_dict.mostcommon(10))
+print(wp_cron_dict.mostcommon(10))
+print(wp_xmlrpc_dict.mostcommon(10))
+print(wp_admin_ajax_dict.mostcommon(10))
