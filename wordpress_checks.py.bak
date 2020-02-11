@@ -14,7 +14,7 @@ apacheDay = theDay.strftime('[%d/%b/%Y:')
 
 path = "/home/username/Desktop/domlogs"
 logs_path = os.listdir(path)
-stats_output = open("/home/username/wp.txt", "w")
+stats_output = open(os.getcwd() + '/stats.txt', "w")
 
 for log in logs_path:
     file = os.path.join(path, log)
@@ -32,11 +32,13 @@ for log in logs_path:
             wp_xmlrpc_hit_count = wp_xmlrpc_hit_count + 1
         if re.match("(.*)(admin-ajax.php)(.*)", line):
             wp_admin_ajax_hit_count = wp_admin_ajax_hit_count + 1
-            print >> stats_output, log + "|" + line,
+            # print >> stats_output, log + "|" + line,
+            print(log + "|" + line, end="", file=stats_output)
 
-    print(log + " :Wordpress Logins => " + str(wp_login_hit_count))
-    print(log + " :Wordpress wp-cron => " + str(wp_cron_hit_count))
-    print(log + " :Wordpress xmlrpc => " + str(wp_xmlrpc_hit_count))
-    print(log + " :Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count))
-    print "==============================================================="
+    print(log)
+    print("Wordpress Logins => " + str(wp_login_hit_count))
+    print("Wordpress wp-cron => " + str(wp_cron_hit_count))
+    print("Wordpress xmlrpc => " + str(wp_xmlrpc_hit_count))
+    print("Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count))
+    print("===============================================================")
     text.close()
