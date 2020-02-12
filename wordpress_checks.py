@@ -16,7 +16,7 @@ path = "/home/username/Desktop/domlogs"
 logs_path = os.listdir(path)
 stats_output = open(os.getcwd() + '/stats.txt', "w")
 
-# Initialize dictionaries for hit count tallys
+# Initialize dictionaries for hit counters
 wp_login_dict = {}
 wp_cron_dict = {}
 wp_xmlrpc_dict = {}
@@ -41,12 +41,13 @@ for log in logs_path:
             # print >> stats_output, log + "|" + line,
             # print(log + "|" + line, end="", file=stats_output)
 
+    log = log.replace('-ssl_log', '', 1)
     log = log.replace('.access_log', '', 1)
 
-    wp_login_dict[log] = str(wp_login_hit_count)
-    wp_cron_dict[log] = str(wp_cron_hit_count)
-    wp_xmlrpc_dict[log] = str(wp_xmlrpc_hit_count)
-    wp_admin_ajax_dict[log] = str(wp_admin_ajax_hit_count)
+    wp_login_dict[log] = int(wp_login_hit_count)
+    wp_cron_dict[log] = int(wp_cron_hit_count)
+    wp_xmlrpc_dict[log] = int(wp_xmlrpc_hit_count)
+    wp_admin_ajax_dict[log] = int(wp_admin_ajax_hit_count)
 
     print(log)
     print("Wordpress Logins => " + str(wp_login_hit_count))
@@ -56,7 +57,58 @@ for log in logs_path:
     print("===============================================================")
     text.close()
 
-print(wp_login_dict.mostcommon(10))
-print(wp_cron_dict.mostcommon(10))
-print(wp_xmlrpc_dict.mostcommon(10))
-print(wp_admin_ajax_dict.mostcommon(10))
+# print(wp_login_dict.mostcommon(10))
+# print(wp_cron_dict.mostcommon(10))
+# print(wp_xmlrpc_dict.mostcommon(10))
+# print(wp_admin_ajax_dict.mostcommon(10))
+
+# d = sorted(a.items(),key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+
+wp_logintop = sorted(wp_login_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+
+wp_crontop = sorted(wp_cron_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+
+wp_xmlrpctop = sorted(wp_xmlrpc_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+
+wp_admin_ajaxtop = sorted(wp_admin_ajax_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+
+print('+++++++++++++++++++++++++++++++++++')
+print('The original Wordpress login dictionary')
+print(wp_login_dict)
+print('+++++++++++++++++++++++++++++++++++')
+print('The sorted Wordpress login dictionary')
+print(wp_logintop)
+print('+++++++++++++++++++++++++++++++++++')
+print('+++++++++++++++++++++++++++++++++++')
+print('The original Wordpress wp-cron dictionary')
+print(wp_cron_dict)
+print('+++++++++++++++++++++++++++++++++++')
+print('The sorted Wordpress cron dictionary')
+print(wp_crontop)
+print('+++++++++++++++++++++++++++++++++++')
+print('+++++++++++++++++++++++++++++++++++')
+print('The original Wordpress wp-xmlrpc dictionary')
+print(wp_xmlrpc_dict)
+print('+++++++++++++++++++++++++++++++++++')
+print('The sorted Wordpress xmlrpc dictionary')
+print(wp_xmlrpctop)
+print('+++++++++++++++++++++++++++++++++++')
+print('+++++++++++++++++++++++++++++++++++')
+print('The original Wordpress wp-admin ajax dictionary')
+print(wp_admin_ajax_dict)
+print('+++++++++++++++++++++++++++++++++++')
+print('The sorted Wordpress admin_ajax dictionary')
+print(wp_admin_ajaxtop)
+print('+++++++++++++++++++++++++++++++++++')
+print('+++++++++++++++++++++++++++++++++++')
+
+# print('sorted_d')
+# print(sorted_d)
+# print('Sorted reverse')
+# print(sortedreverse)
+
+# d = Counter(
+# d = Counter(wp_login_dict)
+# d.most_common()
+# for k, v in d.most_common(10):
+#  print('%s: %i' % (k, v))
