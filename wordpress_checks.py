@@ -5,12 +5,12 @@ from datetime import date, timedelta
 
 # Define the day of interest in the Apache common log format.
 try:
-    # daysAgo = int(sys.argv[1])
-    daysAgo = 1
+    # daysago = int(sys.argv[1])
+    daysago = 2
 except:
-    daysAgo = 1
-theDay = date.today() - timedelta(daysAgo)
-apacheDay = theDay.strftime('[%d/%b/%Y:')
+    daysago = 1
+the_day = date.today() - timedelta(daysago)
+apache_day = the_day.strftime('[%d/%b/%Y:')
 
 path = "/home/username/Desktop/domlogs"
 logs_path = os.listdir(path)
@@ -49,12 +49,12 @@ for log in logs_path:
     wp_xmlrpc_dict[log] = int(wp_xmlrpc_hit_count)
     wp_admin_ajax_dict[log] = int(wp_admin_ajax_hit_count)
 
-    print(log)
-    print("Wordpress Logins => " + str(wp_login_hit_count))
-    print("Wordpress wp-cron => " + str(wp_cron_hit_count))
-    print("Wordpress xmlrpc => " + str(wp_xmlrpc_hit_count))
-    print("Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count))
-    print("===============================================================")
+    #    print(log)
+    #    print("Wordpress Logins => " + str(wp_login_hit_count))
+    #    print("Wordpress wp-cron => " + str(wp_cron_hit_count))
+    #    print("Wordpress xmlrpc => " + str(wp_xmlrpc_hit_count))
+    #    print("Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count))
+    #    print("===============================================================")
     text.close()
 
 # print(wp_login_dict.mostcommon(10))
@@ -64,43 +64,43 @@ for log in logs_path:
 
 # d = sorted(a.items(),key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
 
-wp_logintop = sorted(wp_login_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+# wp_logintop = sorted(wp_login_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
 
-wp_crontop = sorted(wp_cron_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+# wp_crontop = sorted(wp_cron_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
 
-wp_xmlrpctop = sorted(wp_xmlrpc_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+# wp_xmlrpctop = sorted(wp_xmlrpc_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
 
-wp_admin_ajaxtop = sorted(wp_admin_ajax_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
+# wp_admin_ajaxtop = sorted(wp_admin_ajax_dict.items(), key=lambda x: (x[1], x[0]), reverse=True)  # Value then Key
 
-print('+++++++++++++++++++++++++++++++++++')
-print('The original Wordpress login dictionary')
-print(wp_login_dict)
-print('+++++++++++++++++++++++++++++++++++')
-print('The sorted Wordpress login dictionary')
-print(wp_logintop)
-print('+++++++++++++++++++++++++++++++++++')
-print('+++++++++++++++++++++++++++++++++++')
-print('The original Wordpress wp-cron dictionary')
-print(wp_cron_dict)
-print('+++++++++++++++++++++++++++++++++++')
-print('The sorted Wordpress cron dictionary')
-print(wp_crontop)
-print('+++++++++++++++++++++++++++++++++++')
-print('+++++++++++++++++++++++++++++++++++')
-print('The original Wordpress wp-xmlrpc dictionary')
-print(wp_xmlrpc_dict)
-print('+++++++++++++++++++++++++++++++++++')
-print('The sorted Wordpress xmlrpc dictionary')
-print(wp_xmlrpctop)
-print('+++++++++++++++++++++++++++++++++++')
-print('+++++++++++++++++++++++++++++++++++')
-print('The original Wordpress wp-admin ajax dictionary')
-print(wp_admin_ajax_dict)
-print('+++++++++++++++++++++++++++++++++++')
-print('The sorted Wordpress admin_ajax dictionary')
-print(wp_admin_ajaxtop)
-print('+++++++++++++++++++++++++++++++++++')
-print('+++++++++++++++++++++++++++++++++++')
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The original Wordpress login dictionary')
+# print(wp_login_dict)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The sorted Wordpress login dictionary')
+# print(wp_logintop)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The original Wordpress wp-cron dictionary')
+# print(wp_cron_dict)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The sorted Wordpress cron dictionary')
+# print(wp_crontop)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The original Wordpress wp-xmlrpc dictionary')
+# print(wp_xmlrpc_dict)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The sorted Wordpress xmlrpc dictionary')
+# print(wp_xmlrpctop)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The original Wordpress wp-admin ajax dictionary')
+# print(wp_admin_ajax_dict)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('The sorted Wordpress admin_ajax dictionary')
+# print(wp_admin_ajaxtop)
+# print('+++++++++++++++++++++++++++++++++++')
+# print('+++++++++++++++++++++++++++++++++++')
 
 # print('sorted_d')
 # print(sorted_d)
@@ -112,3 +112,48 @@ print('+++++++++++++++++++++++++++++++++++')
 # d.most_common()
 # for k, v in d.most_common(10):
 #  print('%s: %i' % (k, v))
+
+# create a function which returns the value of a dictionary
+def keyfunction(k):
+    return d[k]
+
+
+d = wp_login_dict
+
+print('''
+Wordpress Bruteforce Logins for wp-login.php %s''' % the_day.strftime('%b %d, %Y'))
+print('============================================')
+# sort by dictionary by the values and print top 10 {key, value} pairs
+for key in sorted(d, key=keyfunction, reverse=True)[:10]:
+    print("%s: %i" % (key, d[key]))
+print('============================================')
+
+d = wp_cron_dict
+
+print('''
+Wordpress Cron wp-cron.php(virtual cron) checks for %s''' % the_day.strftime('%b %d, %Y'))
+print('============================================')
+# sort by dictionary by the values and print top 10 {key, value} pairs
+for key in sorted(d, key=keyfunction, reverse=True)[:10]:
+    print("%s: %i" % (key, d[key]))
+print('============================================')
+
+d = wp_xmlrpc_dict
+
+print('''
+Wordpress XMLRPC Attacks checks for xmlrpc.php for %s''' % the_day.strftime('%b %d, %Y'))
+print('============================================')
+# sort by dictionary by the values and print top 10 {key, value} pairs
+for key in sorted(d, key=keyfunction, reverse=True)[:10]:
+    print("%s: %i" % (key, d[key]))
+print('============================================')
+
+d = wp_admin_ajax_dict
+
+print('''
+Wordpress Heartbeat API checks for admin-ajax.php for %s''' % the_day.strftime('%b %d, %Y'))
+print('============================================')
+# sort by dictionary by the values and print top 10 {key, value} pairs
+for key in sorted(d, key=keyfunction, reverse=True)[:10]:
+    print("%s: %i" % (key, d[key]))
+print('============================================')
