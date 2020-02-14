@@ -2,19 +2,30 @@
 import os
 import re
 from datetime import date, timedelta
+from os.path import join, isfile
 
 # Define the day of interest in the Apache common log format.
+
+
 try:
     # daysago = int(sys.argv[1])
-    daysago = 2
+    daysago = 1
 except:
     daysago = 1
 the_day = date.today() - timedelta(daysago)
 apache_day = the_day.strftime('[%d/%b/%Y:')
 
-path = "/home/username/Desktop/domlogs"
-logs_path = os.listdir(path)
+# Define Output file
 stats_output = open(os.getcwd() + '/stats.txt', "w")
+
+# Define log path directory
+path = "/home/username/Desktop/domlogs"
+
+# Get list of dir contents
+logs_path_contents = os.listdir(path)
+
+# Get list of files only from this directory
+logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
 
 # Initialize dictionaries for hit counters
 wp_login_dict = {}
@@ -22,7 +33,7 @@ wp_cron_dict = {}
 wp_xmlrpc_dict = {}
 wp_admin_ajax_dict = {}
 
-for log in logs_path:
+for log in logs:
     file = os.path.join(path, log)
     text = open(file, "r")
     wp_login_hit_count = 0
@@ -30,16 +41,17 @@ for log in logs_path:
     wp_xmlrpc_hit_count = 0
     wp_admin_ajax_hit_count = 0
     for line in text:
-        if re.match("(.*)(wp-login.php)(.*)", line):
-            wp_login_hit_count = wp_login_hit_count + 1
-        if re.match("(.*)(wp-cron.php)(.*)", line):
-            wp_cron_hit_count = wp_cron_hit_count + 1
-        if re.match("(.*)(xmlrpc.php)(.*)", line):
-            wp_xmlrpc_hit_count = wp_xmlrpc_hit_count + 1
-        if re.match("(.*)(admin-ajax.php)(.*)", line):
-            wp_admin_ajax_hit_count = wp_admin_ajax_hit_count + 1
-            # print >> stats_output, log + "|" + line,
-            # print(log + "|" + line, end="", file=stats_output)
+        if apache_day in line:
+            if re.match("(.*)(wp-login.php)(.*)", line):
+                wp_login_hit_count = wp_login_hit_count + 1
+            if re.match("(.*)(wp-cron.php)(.*)", line):
+                wp_cron_hit_count = wp_cron_hit_count + 1
+            if re.match("(.*)(xmlrpc.php)(.*)", line):
+                wp_xmlrpc_hit_count = wp_xmlrpc_hit_count + 1
+            if re.match("(.*)(admin-ajax.php)(.*)", line):
+                wp_admin_ajax_hit_count = wp_admin_ajax_hit_count + 1
+                # print >> stats_output, log + "|" + line,
+                # print(log + "|" + line, end="", file=stats_output)
 
     log = log.replace('-ssl_log', '', 1)
     log = log.replace('.access_log', '', 1)
@@ -56,6 +68,7 @@ for log in logs_path:
     #    print("Wordpress admin-ajax => " + str(wp_admin_ajax_hit_count))
     #    print("===============================================================")
     text.close()
+
 
 # print(wp_login_dict.mostcommon(10))
 # print(wp_cron_dict.mostcommon(10))
