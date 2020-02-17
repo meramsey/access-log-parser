@@ -38,11 +38,11 @@ else
 	echo "Not able to detect Control panel. Unsupported Control Panel exiting now"
 	   exit 1;
 	fi
-	
+echo "=============================================================";	
 echo "$ControlPanel Control Panel Detected"
 echo "User Homedirectory: ${user_homedir}"
 echo "User Domlogs Path: ${domlogs_path}"
-
+echo "=============================================================";
 
 #Domlog Date array for past 5 days
 declare -a datetimeDomLast5_array=($(date +"%d/%b/%Y") $(date --date='1 day ago' +"%d/%b/%Y") $(date --date='2 days ago' +"%d/%b/%Y") $(date --date='3 days ago' +"%d/%b/%Y") $(date --date='4 days ago' +"%d/%b/%Y")); #for DATE in "${datetimeDomLast5_array[@]}"; do echo $DATE; done;
@@ -134,7 +134,7 @@ echo "HTTP Dom Logs POST Requests for ${DATE} for $Username";
 	sudo grep -r "$DATE" ${domlogs_path} | grep -E "admin_[a-zA-Z0-9_]*[/admin/index/index]" | cut -f 1 -d ":" |sed -e "s|$domlogs_path||g" -e 's|"||g' -e "s|$acesslog_sed||g" -e "s|$Username/||g"|awk {'print $1,$6,$7'}  | sort | uniq -c | sort -n|tail| sort -rn
 	echo ""
 	echo "Joomla Login Bruteforcing checks for admin pages /administrator/index.php for ${DATE} for $Username"
-	sudo grep -r "$DATE" ${domlogs_path} | grep -E "admin_[a-zA-Z0-9_]*[/admin/index/index]" | cut -f 1 -d ":" |sed -e "s|$domlogs_path||g" -e 's|"||g' -e "s|$acesslog_sed||g" -e "s|$Username/||g"|awk {'print $1,$6,$7'}  | sort | uniq -c | sort -n|tail| sort -rn
+	sudo grep -r "$DATE" ${domlogs_path} | grep -E "/administrator/index.php" | cut -f 1 -d ":" |sed -e "s|$domlogs_path||g" -e 's|"||g' -e "s|$acesslog_sed||g" -e "s|$Username/||g"|awk {'print $1,$6,$7'}  | sort | uniq -c | sort -n|tail| sort -rn
 	echo ""
 	echo "vBulletin Login Bruteforcing checks for admin pages admincp for ${DATE} for $Username"
 	sudo grep -r "$DATE" ${domlogs_path} | grep -E "admincp" | cut -f 1 -d ":" |sed -e "s|$domlogs_path||g" -e 's|"||g' -e "s|$acesslog_sed||g" -e "s|$Username/||g"|awk {'print $1,$6,$7'}  | sort | uniq -c | sort -n|tail| sort -rn
