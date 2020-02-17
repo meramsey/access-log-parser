@@ -43,7 +43,7 @@ echo "$ControlPanel Control Panel Detected"
 echo "User Homedirectory: ${user_homedir}"
 echo "User Domlogs Path: ${domlogs_path}"
 echo "=============================================================";
-
+echo "";
 #Domlog Date array for past 5 days
 declare -a datetimeDomLast5_array=($(date +"%d/%b/%Y") $(date --date='1 day ago' +"%d/%b/%Y") $(date --date='2 days ago' +"%d/%b/%Y") $(date --date='3 days ago' +"%d/%b/%Y") $(date --date='4 days ago' +"%d/%b/%Y")); #for DATE in "${datetimeDomLast5_array[@]}"; do echo $DATE; done;
 
