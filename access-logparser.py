@@ -71,7 +71,7 @@ def main():
             controlpanel = 'CyberPanel'
             acesslog_sed = ".access_log"
             if username == 'root':
-                # Needs updated to glob all /home/*/logs/
+                # Glob all access logs via /home/*/logs/
                 domlogs_path = '/home/*/logs/'
             else:
                 # Get users homedir path
@@ -86,8 +86,6 @@ def main():
 
     # Define log path directory
     path = domlogs_path
-
-    # path = "/home/username/Desktop/domlogs"
 
     # Get list of dir contents
     logs_path_contents = os.listdir(path)
@@ -344,7 +342,7 @@ def main():
 
     print('Accesslog path used: ' + path)
     # print(dcpumon_current_log)
-
+    print('============================================')
     d = post_request_dict
     # Using dictionary comprehension to find list
     # keys having value in 0 will be removed from results
@@ -352,7 +350,7 @@ def main():
 
     # delete the key
     for key in delete: del d[key]
-
+    print('          ')
     print('''Top POST requests for %s''' % the_day.strftime('%b %d, %Y'))
     print('          ')
     # sort by dictionary by the values and print top 10 {key, value} pairs
