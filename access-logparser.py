@@ -4,9 +4,9 @@
 ## https://gitlab.com/mikeramsey/access-log-parser
 ## How to use.
 #  Run the script from your account via manual or curl method. It autodetects the current user and defaults to the todays date if not argument for how many days ago it provided.
-# For todays hits 
-# ./access-logparser.py 
-# 
+# For todays hits
+# ./access-logparser.py
+#
 # For yesterdays aka 1 Days ago
 # ./access-logparser.py 1
 #
@@ -27,7 +27,9 @@ from datetime import datetime
 from os.path import join, isfile
 import getpass
 import glob
-#import pathlib
+
+
+# import pathlib
 
 # print('version is', sys.version)
 
@@ -38,7 +40,7 @@ def main():
     # filenametest = "/home/example.com.access_log"
     # username = 'server'
     username = getpass.getuser()
-    #print(username)
+    # print(username)
     # Define the day of interest in the Apache common log format. Default if not specified
     try:
         daysago = int(sys.argv[1])
@@ -72,7 +74,7 @@ def main():
             acesslog_sed = ".access_log"
             if username == 'root':
                 # Needs updated to glob all /home/*/logs/
-                domlogs_path2 = Path.glob('/home/*/logs/')
+                domlogs_path2 = glob.glob('/home/*/logs/')
             else:
                 # Get users homedir path
                 user_homedir = os.path.expanduser("~" + username)
@@ -84,25 +86,24 @@ def main():
     # Define Output file
     stats_output = open(os.getcwd() + '/stats.txt', "w")
 
+    if username == 'root' and controlpanel == 'CyberPanel':
+        # Needs updated to glob all /home/*/logs/
+        path = '/home/*/logs/*'
+        domlogs_path = glob.glob("/home/*/logs/")
+        print('Root CyberPanel Detected')
+        # Get list of dir contents
+        # logs_path_contents = glob.glob("/home/*/logs/*.access_log", recursive=True)
 
-    if username == 'root' and  controlpanel == 'CyberPanel':
-      	# Needs updated to glob all /home/*/logs/
-	path = '/home/*/logs/'       
-	domlogs_path = glob.glob("/home/*/logs/")
-	print('Root CyberPanel Detected')
-	# Get list of dir contents
-	logs_path_contents = glob.glob("/home/*/logs/*", recursive=True)
-
-	# Get list of files only from this directory
-	logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
+        # Get list of files only from this directory
+        logs = glob.glob("/home/*/logs/*.access_log")
 
     else:
-	    # Define log path directory
-	    path = domlogs_path
-	    # Get list of dir contents
-	    logs_path_contents = os.listdir(path)
-	    # Get list of files only from this directory
-	    logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
+        # Define log path directory
+        path = domlogs_path
+        # Get list of dir contents
+        logs_path_contents = os.listdir(path)
+        # Get list of files only from this directory
+        logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
 
     # Regex for the Apache common log format.
     parts = [  # host %h  			:ip/hostname of the client 	172.68.142.138
