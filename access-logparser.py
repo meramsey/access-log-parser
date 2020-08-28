@@ -26,8 +26,8 @@ from datetime import date, timedelta
 from datetime import datetime
 from os.path import join, isfile
 import getpass
-
-
+import glob
+import pathlib
 
 # print('version is', sys.version)
 
@@ -38,7 +38,7 @@ def main():
     # filenametest = "/home/example.com.access_log"
     # username = 'server'
     username = getpass.getuser()
-    # print(username)
+    print(username)
     # Define the day of interest in the Apache common log format. Default if not specified
     try:
         daysago = int(sys.argv[1])
@@ -71,8 +71,8 @@ def main():
             controlpanel = 'CyberPanel'
             acesslog_sed = ".access_log"
             if username == 'root':
-                # Glob all access logs via /home/*/logs/
-                domlogs_path = '/home/*/logs/'
+                # Needs updated to glob all /home/*/logs/
+                domlogs_path = Path.glob('/home/*/logs/')
             else:
                 # Get users homedir path
                 user_homedir = os.path.expanduser("~" + username)
@@ -86,6 +86,8 @@ def main():
 
     # Define log path directory
     path = domlogs_path
+
+    # path = "/home/username/Desktop/domlogs"
 
     # Get list of dir contents
     logs_path_contents = os.listdir(path)
