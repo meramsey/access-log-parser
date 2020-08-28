@@ -27,7 +27,7 @@ from datetime import datetime
 from os.path import join, isfile
 import getpass
 import glob
-import pathlib
+# import pathlib
 
 # print('version is', sys.version)
 
@@ -72,7 +72,8 @@ def main():
             acesslog_sed = ".access_log"
             if username == 'root':
                 # Needs updated to glob all /home/*/logs/
-                domlogs_path = Path.glob('/home/*/logs/')
+                domlogs_path = glob.glob("/home/*/logs/")
+                
             else:
                 # Get users homedir path
                 user_homedir = os.path.expanduser("~" + username)
