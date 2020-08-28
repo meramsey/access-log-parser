@@ -27,7 +27,7 @@ from datetime import datetime
 from os.path import join, isfile
 import getpass
 import glob
-# import pathlib
+#import pathlib
 
 # print('version is', sys.version)
 
@@ -72,8 +72,7 @@ def main():
             acesslog_sed = ".access_log"
             if username == 'root':
                 # Needs updated to glob all /home/*/logs/
-                domlogs_path = glob.glob("/home/*/logs/")
-                
+                domlogs_path2 = Path.glob('/home/*/logs/')
             else:
                 # Get users homedir path
                 user_homedir = os.path.expanduser("~" + username)
@@ -85,16 +84,25 @@ def main():
     # Define Output file
     stats_output = open(os.getcwd() + '/stats.txt', "w")
 
-    # Define log path directory
-    path = domlogs_path
 
-    # path = "/home/username/Desktop/domlogs"
+    if username == 'root' and  controlpanel == 'CyberPanel':
+      	# Needs updated to glob all /home/*/logs/
+	path = '/home/*/logs/'       
+	domlogs_path = glob.glob("/home/*/logs/")
+	print('Root CyberPanel Detected')
+	# Get list of dir contents
+	logs_path_contents = glob.glob("/home/*/logs/*", recursive=True)
 
-    # Get list of dir contents
-    logs_path_contents = os.listdir(path)
+	# Get list of files only from this directory
+	logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
 
-    # Get list of files only from this directory
-    logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
+    else:
+	    # Define log path directory
+	    path = domlogs_path
+	    # Get list of dir contents
+	    logs_path_contents = os.listdir(path)
+	    # Get list of files only from this directory
+	    logs = filter(lambda f: isfile(join(path, f)), logs_path_contents)
 
     # Regex for the Apache common log format.
     parts = [  # host %h  			:ip/hostname of the client 	172.68.142.138
