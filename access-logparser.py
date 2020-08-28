@@ -38,7 +38,7 @@ def main():
     # filenametest = "/home/example.com.access_log"
     # username = 'server'
     username = getpass.getuser()
-    print(username)
+    #print(username)
     # Define the day of interest in the Apache common log format. Default if not specified
     try:
         daysago = int(sys.argv[1])
