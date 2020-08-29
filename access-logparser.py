@@ -281,7 +281,12 @@ def main():
                 if re.match("(.*)(/admin[a-zA-Z0-9_]*$)(.*)", line):
                     prestashop_hit_count = prestashop_hit_count + 1
                 m = pattern.match(line)
-                hit = m.groupdict()
+                if hit is not None:
+                    hit = m.groupdict()
+                else:
+                    print("re.search() returned None")
+                    continue
+                # hit = m.groupdict()
                 if ispage(hit):
                     pages.append(pythonized(hit))
                 else:
