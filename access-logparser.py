@@ -284,7 +284,7 @@ def main():
                 if m is not None:
                     hit = m.groupdict()
                 else:
-                    print("re.search() returned None")
+                    # print("re.search() returned None")
                     continue
                 # hit = m.groupdict()
                 if ispage(hit):
